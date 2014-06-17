@@ -43,21 +43,30 @@
 
     <form class="navbar-form navbar-center">
       <div class="input_wrap">
+        <!-- select room dropdown -->
         <select id="roomName" class="form_control">
           <option>lobby</option>
           <option>lobby2</option>
         </select>
 
+        <!-- user input room -->
+        <div class="form-group">
+          <input type="text" id="newRoom" class="form-control wider_input" placeholder="Subscribe to new room!">
+        </div>
+        <!-- input btn -->
+        <button type="button" id="submitRoom" class="btn btn-default">Fetch room</button>
 
+        <br/>
+        <br/>
+        <!-- refresh -->
+        <button type="button" id="submitRoom" class="btn btn-default">Refresh</button>
+
+        <!-- user message input -->
         <div class="form-group">
           <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
         </div>
-        <br/>
-        <br/>
-        <div class="form-group">
-          <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
-        </div>
 
+        <!-- submit message btn -->
         <button type="button" class="btn btn-default">Submit</button>
       </div>
     </form>
