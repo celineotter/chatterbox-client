@@ -1,16 +1,7 @@
-
-
-// Message = function (username, text, roomname) {
-//   this.username = username;
-//   this.text = text;
-//   this.roomname = roomname;
-// };
-
-/*========================================================*/
 var app = {
   server : 'https://api.parse.com/1/classes/chatterbox',
   currentuser : 'anonymous',
-  roomname: 'lobby2'
+  roomname: 'lobby'
 };
 
 app.init = function() {
@@ -25,12 +16,19 @@ app.initUserName = function() {
 };
 
 app.fetch = function(callback) {
+  this.clearMessages();
+  callback = callback || this.renderMessages;
+  console.log('room check', this.getRoomname());
   $.ajax({
     url: this.server,
     type: 'GET',
     contentType: 'application/json',
-/*    data: 'order=-createdAt',*/
-    data: 'where={"roomname": "'+ this.roomname +'"}',
+    data: {
+      order: "-createdAt",
+      where: {
+        roomname: this.getRoomname()
+      }
+    },
     success: function (data) {
       callback(data);
     },
@@ -43,7 +41,7 @@ app.fetch = function(callback) {
 
 app.renderMessages = function(data) {
   var messages = data.results;
-  messages = messages.reverse();
+  //messages = messages.reverse();
 
   //for (var i= last; i > last -10; i--) {
   for (var i=0; i<messages.length; i++) {
@@ -59,7 +57,9 @@ app.addMessage = function(message) {
     msgText = msgText.replace('<', '&lt;', 'gi');
     msgText = msgText.replace('>', '&gt;', 'gi');
     //msgText = msgText.replace('$', '', 'gi');
-    var currentMessage = '<li class="message">' + message.username + ': ' + msgText + '</li>';
+    var currentMessage = '<li class="message">' + message.username + ': ' + msgText + '</li>'
+      + ' ['+ message.createdAt + ']'
+      + ' ['+ moment(message.createdAt).fromNow()  +' ]';
     $('#chats').append(currentMessage);
     console.log(message.roomname, message.username, msgText);
   }
@@ -91,11 +91,16 @@ app.send = function(message) {
   });
 };
 
+app.getRoomname = function() {
+  var menu = $("#roomName option:selected");
+  return menu.text();
+};
+
 app.createMessageObj = function (userinput) {
   var message = {
     username: this.currentuser,
     text: userinput,
-    roomname: this.roomname
+    roomname: this.getRoomname()
   };
   app.send(message);
 };
@@ -104,6 +109,12 @@ app.addRoom = function(roomname) {};
 
 app.init();
 
+
+app.addRoom = function (message) {
+
+}
+
+/*========================================================*/
 /*========================================================*/
 
 $(function() {
@@ -112,4 +123,11 @@ $(function() {
     app.createMessageObj(userinput);
   })
 
+
+  $("#roomName").on("change", function () {
+    app.fetch();
+  })
+
 });
+
+

@@ -11,22 +11,29 @@
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <!-- your scripts -->
     <script src="scripts/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
 
-      <h1>chatterbox</h1>
+    <h1>chatterbox</h1>
+    <form class="navbar-form navbar-center">
       <div class="input_wrap">
-        <form class="navbar-form navbar-center" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
-          </div>
-          <button type="button" class="btn btn-default">Submit</button>
-        </form>
+        <select id="roomName" class="form_control">
+          <option>lobby</option>
+          <option>lobby2</option>
+        </select>
+        <!-- user inputs text message -->
+        <div class="form-group">
+          <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
+        </div>
+        <button type="button" class="btn btn-default">Submit</button>
       </div>
+    </form>
 
+    <!-- message list thread -->
     <div id="main">
       <ul id="chats" class="messageList">
       </ul>
