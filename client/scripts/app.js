@@ -7,12 +7,74 @@ var app = {
 app.init = function() {
   this.currentuser = this.initUserName();
   this.fetch(this.renderMessages);
+  this.fetchRooms(this.renderRooms);
 };
 
 app.initUserName = function() {
   var stringNameQuery =  window.location.search;
   var nameStartIIndex = stringNameQuery.indexOf('=');
   return stringNameQuery.slice(nameStartIIndex + 1);
+};
+
+app.fetchRooms = function(callback) {
+  $.ajax({
+    url: this.server,
+    type: 'GET',
+    contentType: 'application/json',
+    data: {
+      order: "-createdAt",
+    },
+    success: function (data) {
+      callback(data);
+    },
+    error: function (data) {
+      // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+      console.error('chatterbox: Failed to receive rooms');
+    }
+  });
+};
+
+app.renderRooms = function(data) {
+  var messages = data.results;
+  var results = [];
+  var room;
+
+  for (var i=0; i<messages.length; i++) {
+    room = messages[i].roomname;
+    if (room && room.length > 0) {
+      results.push(room);
+    }
+  }
+
+  // Sort room names
+  //results.sort();
+  var uniqueRooms = ['Lobby'];
+  $.each(results, function(i, element) {
+    if ($.inArray(element, uniqueRooms) === -1) {
+      uniqueRooms.push(element);
+    }
+  });
+
+  // TODO: sort is not alphabetical
+  uniqueRooms.sort();
+  $.each(uniqueRooms, function(i, room) {
+    app.addRoom(room);
+  });
+
+  $(".roomName").on("click", function (e) {
+    e.preventDefault();
+    app.roomname = this.text();
+    console.log('I got clicked! ' + app.roomname);
+    app.fetch();
+  });
+
+};
+
+app.addRoom = function(room) {
+  var $room = $("<li>").text(room);
+
+  $('#rooms').append('<li class="uniqRoom"><a class="roomLink">' + room + '</a></li>');
+
 };
 
 app.fetch = function(callback) {
@@ -40,6 +102,8 @@ app.fetch = function(callback) {
 };
 
 app.renderMessages = function(data) {
+  $(".room-label").text(app.getRoomname());
+
   var messages = data.results;
   //messages = messages.reverse();
 
@@ -62,7 +126,7 @@ app.addMessage = function(message) {
       + '</li>';
 
     $('#chats').append(currentMessage);
-    console.log(message.roomname, message.username, msgText);
+    //console.log(message.roomname, message.username, msgText);
   }
 };
 
@@ -93,6 +157,7 @@ app.send = function(message) {
 };
 
 app.getRoomname = function() {
+
   var menu = $("#roomName option:selected");
   return menu.text();
 };
@@ -106,28 +171,29 @@ app.createMessageObj = function (userinput) {
   app.send(message);
 };
 
-app.addRoom = function(roomname) {};
 
-app.init();
-
-
-app.addRoom = function (message) {
-
-}
 
 /*========================================================*/
 /*========================================================*/
 
 $(function() {
+  app.init();
+
   $(".btn").on("click", function () {
     var userinput = $(".form-control").val();
     app.createMessageObj(userinput);
-  })
-
+  });
 
   $("#roomName").on("change", function () {
     app.fetch();
-  })
+  });
+
+  $(".roomName").on("click", function (e) {
+    e.preventDefault();
+    app.roomname = this.text();
+    console.log('I got clicked! ' + app.roomname);
+    app.fetch();
+  });
 
 });
 
