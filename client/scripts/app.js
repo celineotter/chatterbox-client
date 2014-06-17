@@ -56,10 +56,11 @@ app.addMessage = function(message) {
   if (msgText && userName) {
     msgText = msgText.replace('<', '&lt;', 'gi');
     msgText = msgText.replace('>', '&gt;', 'gi');
-    //msgText = msgText.replace('$', '', 'gi');
-    var currentMessage = '<li class="message">' + message.username + ': ' + msgText + '</li>'
-      + ' ['+ message.createdAt + ']'
-      + ' ['+ moment(message.createdAt).fromNow()  +' ]';
+
+    var currentMessage = '<li class="message">' + message.username + ': ' + msgText
+      + ' ['+ moment(message.createdAt).fromNow() + ']'
+      + '</li>';
+
     $('#chats').append(currentMessage);
     console.log(message.roomname, message.username, msgText);
   }
