@@ -10,7 +10,7 @@
 var app = {
   server : 'https://api.parse.com/1/classes/chatterbox',
   currentuser : 'anonymous',
-  roomname: '_codersRoom'
+  roomname: 'lobby2'
 };
 
 app.init = function() {
@@ -29,7 +29,8 @@ app.fetch = function(callback) {
     url: this.server,
     type: 'GET',
     contentType: 'application/json',
-    data: 'order=-createdAt', //JSON.stringify(message),
+/*    data: 'order=-createdAt',*/
+    data: 'where={"roomname": "'+ this.roomname +'"}',
     success: function (data) {
       callback(data);
     },
@@ -46,34 +47,29 @@ app.renderMessages = function(data) {
 
   //for (var i= last; i > last -10; i--) {
   for (var i=0; i<messages.length; i++) {
-    var msgText = messages[i].text;
-    var userName = messages[i].username;
-
-    if (msgText && userName) {
-      msgText = msgText.replace('<', '&lt;', 'gi');
-      msgText = msgText.replace('>', '&gt;', 'gi');
-      //msgText = msgText.replace('$', '', 'gi');
-      var currentMessage = '<li class="message">' + messages[i].username + ': ' + msgText + '</li>';
-      $('.messageList').append(currentMessage);
-      console.log(messages[i].createdAt, messages[i].username, msgText);
-    }
+    app.addMessage(messages[i]);
   }
 };
 
+app.addMessage = function(message) {
+  var msgText = message.text;
+  var userName = message.username;
 
-
-app.send = function() {
-
-  // input text -
-
-  var message = {
-    username: this.currentuser,
-    text: text,
-    roomname: roomname
+  if (msgText && userName) {
+    msgText = msgText.replace('<', '&lt;', 'gi');
+    msgText = msgText.replace('>', '&gt;', 'gi');
+    //msgText = msgText.replace('$', '', 'gi');
+    var currentMessage = '<li class="message">' + message.username + ': ' + msgText + '</li>';
+    $('#chats').append(currentMessage);
+    console.log(message.roomname, message.username, msgText);
   }
+};
 
+app.clearMessages = function () {
+  $("#chats").empty();
+};
 
-  var msg = new Message(currentuser, 'blah', 'room');
+app.send = function(message) {
   $.ajax({
     url: this.server,
     type: 'POST',
@@ -81,6 +77,12 @@ app.send = function() {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
+
+      $(".form-control").val('');
+
+      app.clearMessages();
+
+      app.fetch(app.renderMessages);
     },
     error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -89,4 +91,25 @@ app.send = function() {
   });
 };
 
+app.createMessageObj = function (userinput) {
+  var message = {
+    username: this.currentuser,
+    text: userinput,
+    roomname: this.roomname
+  };
+  app.send(message);
+};
+
+app.addRoom = function(roomname) {};
+
 app.init();
+
+/*========================================================*/
+
+$(function() {
+  $(".btn").on("click", function () {
+    var userinput = $(".form-control").val();
+    app.createMessageObj(userinput);
+  })
+
+});

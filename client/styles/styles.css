@@ -12,7 +12,7 @@ body {
     background: white;
     padding: 50px 60px;
     border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+    border-width: 1px 1px 1px 1px;
 }
 
 #main h1 {
@@ -46,6 +46,10 @@ body {
     line-height: 13px;
 }
 
+.input_wrap {
+    margin-bottom: 20px;
+}
+
 form {
     padding: 20px;
     padding-left: 0;
@@ -54,9 +58,13 @@ form {
 
 form input[type=text] {
     margin-right: 10px;
-    width: 70%;
+    width: 700%;
     font-size: 12px;
     padding: 5px;
+}
+
+.wider_input {
+    width: 350px !important;
 }
 
 .chat {

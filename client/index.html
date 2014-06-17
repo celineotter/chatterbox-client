@@ -17,18 +17,18 @@
   </head>
   <body>
 
-      <!-- submit input - user -->
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="What do you want to say?">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-
       <h1>chatterbox</h1>
+      <div class="input_wrap">
+        <form class="navbar-form navbar-center" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
+          </div>
+          <button type="button" class="btn btn-default">Submit</button>
+        </form>
+      </div>
 
     <div id="main">
-      <ul class="messageList">
+      <ul id="chats" class="messageList">
       </ul>
     </div>
 
