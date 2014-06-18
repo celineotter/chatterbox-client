@@ -5,42 +5,41 @@ body {
     font-family: arial, sans-serif;
 }
 
-#rooms {
-
+#wrap_panels {
+    width: 75% !important;
+    margin: 0 auto;
 }
 
-#main {
-    width: 500px;
-    margin: auto;
+#main1 {
     text-align: left;
 }
 
-#main h1 {
+#main1 h1 {
     margin-top: 0;
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
 }
 
-#main h1 span {
+#main1 h1 span {
     font-style:italic;
 }
 
-#main ul {
+#main1 ul {
     padding-left: 20px;
 }
 
-#main .error {
+#main1 .error {
     border: 1px solid red;
     background: #FDEFF0;
     padding: 20px;
 }
 
-#main .success {
+#main1 .success {
     margin-top: 25px;
 }
 
-#main .success code {
+#main1 .success code {
     font-size: 12px;
     color: green;
     line-height: 13px;
@@ -69,8 +68,6 @@ form input[type=text] {
 
 .chat {
     padding: 5px;
-    margin-bottom: 5px;
-    background-color: #eee;
 }
 
 .chat .username {
@@ -78,7 +75,7 @@ form input[type=text] {
 }
 
 .chat:hover {
-    background-color: #ddd;
+    background-color: #ffd;
 }
 
 .spinner {
@@ -103,4 +100,12 @@ select {
     text-align: center;
     vertical-align: middle;
     border: 1px solid rgb(204, 204, 204);
+}
+.testclass {
+    padding: 0px !important;
+}
+
+ul {
+    list-style-type: none;
+    text-align: left;
 }

@@ -19,53 +19,51 @@
   <body>
     <h1>chatter<i>box</i></h1>
     <form class="navbar-form navbar-center">
+    <div id="wrap_panels">
+
       <div class="input_wrap">
-        <!-- select room dropdown -->
-        <select id="roomName" class="form_control">
-          <option>lobby</option>
-          <option>lobby2</option>
-        </select>
-
-        <!-- user input room -->
-        <div class="form-group">
-          <input type="text" id="newRoom" class="form-control wider_input" placeholder="Subscribe to new room!">
-        </div>
-        <!-- input btn -->
-        <button type="button" id="submitRoom" class="btn btn-default">Fetch room</button>
-
-        <br/>
-        <br/>
-        <!-- refresh -->
-        <button type="button" id="submitRoom" class="btn btn-default">Refresh</button>
 
         <!-- user message input -->
         <div class="form-group">
-          <input type="text" class="form-control wider_input" placeholder="What do you want to say?">
+          <input id="messageInput" type="text" class="form-control wider_input" placeholder="What do you want to say?">
         </div>
 
         <!-- submit message btn -->
-        <button type="button" class="btn btn-default">Submit</button>
+        <button id="messageButton" type="button" class="btn btn-default">Submit</button>
       </div>
-    </form>
+
+<!--     <div class="col-md-1"></div> -->
 
     <!-- room list thread -->
-    <div class="panel panel-info">
+    <div class="panel panel-info col-md-4 testclass">
       <div class="panel-heading">
-        <h3 class="panel-title">Select a Room</h3></div>
+        <h3 class="panel-title">Select a Room</h3>
+      </div>
+
       <div class="panel-body">
         <ul id="rooms" class="messageList"></ul>
+
+        <div class="form-group">
+          <input type="text" id="roomInput" class="form-control" placeholder="add a new room!">
+        <button type="button" id="roomButton" class="btn btn-info">Submit</button>
+        </div>
+
       </div>
     </div>
 
+    <div class="col-md-1"></div>
     <!-- message list thread -->
-    <div id="main" class="panel panel-info">
+    <div id="main" class="panel panel-info col-md-7 testclass">
       <div class="panel-heading">
         <h3 class="panel-title room-label"></h3></div>
       <div class="panel-body">
         <ul id="chats" class="messageList"></ul>
       </div>
     </div>
+<!--     <div class="col-md-1"></div> -->
 
+  </div>
 
+    </form>
   </body>
 </html>

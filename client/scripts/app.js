@@ -61,9 +61,9 @@ app.renderRooms = function(data) {
     app.addRoom(room);
   });
 
-  $(".roomName").on("click", function (e) {
+  $(".roomLink").on("click", function (e) {
     e.preventDefault();
-    app.roomname = this.text();
+    app.roomname = this.text;
     console.log('I got clicked! ' + app.roomname);
     app.fetch();
   });
@@ -71,16 +71,17 @@ app.renderRooms = function(data) {
 };
 
 app.addRoom = function(room) {
+  room = this.scrub(room);
   var $room = $("<li>").text(room);
 
-  $('#rooms').append('<li class="uniqRoom"><a class="roomLink">' + room + '</a></li>');
+  $('#rooms').append('<li class="uniqRoom"><a href="#" class="roomLink">' + room + '</a></li>');
 
 };
 
 app.fetch = function(callback) {
   this.clearMessages();
   callback = callback || this.renderMessages;
-  console.log('room check', this.getRoomname());
+  console.log('room check', this.roomname);
   $.ajax({
     url: this.server,
     type: 'GET',
@@ -113,15 +114,28 @@ app.renderMessages = function(data) {
   }
 };
 
+app.scrub = function(string) {
+  //string = string.replace('"', '&quot;', 'gi');
+  while (string.indexOf('<') > -1) {
+    string = string.replace('<', '&lt;', 'gi');
+  }
+
+  while (string.indexOf('>') > -1) {
+    string = string.replace('>', '&gt;', 'gi');
+  }
+
+  return string;
+};
+
 app.addMessage = function(message) {
   var msgText = message.text;
   var userName = message.username;
 
   if (msgText && userName) {
-    msgText = msgText.replace('<', '&lt;', 'gi');
-    msgText = msgText.replace('>', '&gt;', 'gi');
+    msgText = this.scrub(msgText);
+    userName = this.scrub(userName);
 
-    var currentMessage = '<li class="message">' + message.username + ': ' + msgText
+    var currentMessage = '<li class="message chat"><span class="username">' + userName + '</span>: ' + msgText
       + ' ['+ moment(message.createdAt).fromNow() + ']'
       + '</li>';
 
@@ -157,9 +171,7 @@ app.send = function(message) {
 };
 
 app.getRoomname = function() {
-
-  var menu = $("#roomName option:selected");
-  return menu.text();
+  return this.roomname;
 };
 
 app.createMessageObj = function (userinput) {
@@ -171,16 +183,14 @@ app.createMessageObj = function (userinput) {
   app.send(message);
 };
 
-
-
 /*========================================================*/
 /*========================================================*/
 
 $(function() {
   app.init();
 
-  $(".btn").on("click", function () {
-    var userinput = $(".form-control").val();
+  $("#messageButton").on("click", function () {
+    var userinput = $("#messageInput").val();
     app.createMessageObj(userinput);
   });
 
@@ -192,6 +202,14 @@ $(function() {
     e.preventDefault();
     app.roomname = this.text();
     console.log('I got clicked! ' + app.roomname);
+    app.fetch();
+  });
+
+  $("#roomButton").on("click", function (e) {
+    // e.preventDefault();
+    //debugger;
+    app.roomname = $("#roomInput").val();
+    console.log('2 I got clicked! ' + app.roomname);
     app.fetch();
   });
 
