@@ -36,12 +36,17 @@
 
     <!-- room list thread -->
     <div class="panel panel-info col-md-4 testclass">
-      <div class="panel-heading">
+      <div id="roomTitle" class="panel-heading titles">
         <h3 class="panel-title">Select a Room</h3>
       </div>
 
       <div class="panel-body">
         <ul id="rooms" class="messageList"></ul>
+
+<!--         <form class="form-inline new-room-form" role="form">
+          <input class="form-control new-room" type="text" name="room" placeholder="New Room" />
+          <button class="btn btn-info btn-sm room-button" type="submit">Create</button>
+        </form> -->
 
         <div class="form-group">
           <input type="text" id="roomInput" class="form-control" placeholder="add a new room!">
@@ -54,7 +59,7 @@
     <div class="col-md-1"></div>
     <!-- message list thread -->
     <div id="main" class="panel panel-info col-md-7 testclass">
-      <div class="panel-heading">
+      <div id="mainTitle" class="panel-heading titles">
         <h3 class="panel-title room-label"></h3></div>
       <div class="panel-body">
         <ul id="chats" class="messageList"></ul>

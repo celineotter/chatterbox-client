@@ -35,6 +35,7 @@ app.fetchRooms = function(callback) {
 };
 
 app.renderRooms = function(data) {
+  app.clearRooms();
   var messages = data.results;
   var results = [];
   var room;
@@ -70,16 +71,17 @@ app.renderRooms = function(data) {
 
 };
 
+app.clearRooms = function (){
+  $("#rooms").empty();
+};
+
 app.addRoom = function(room) {
   room = this.scrub(room);
-  var $room = $("<li>").text(room);
 
   $('#rooms').append('<li class="uniqRoom"><a href="#" class="roomLink">' + room + '</a></li>');
-
 };
 
 app.fetch = function(callback) {
-  this.clearMessages();
   callback = callback || this.renderMessages;
   console.log('room check', this.roomname);
   $.ajax({
@@ -95,7 +97,7 @@ app.fetch = function(callback) {
     success: function (data) {
       callback(data);
     },
-    error: function (data) {
+    error: function () {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to receive message');
     }
@@ -103,6 +105,7 @@ app.fetch = function(callback) {
 };
 
 app.renderMessages = function(data) {
+  app.clearMessages();
   $(".room-label").text(app.getRoomname());
 
   var messages = data.results;
@@ -159,8 +162,6 @@ app.send = function(message) {
 
       $(".form-control").val('');
 
-      app.clearMessages();
-
       app.fetch(app.renderMessages);
     },
     error: function (data) {
@@ -211,6 +212,15 @@ $(function() {
     app.roomname = $("#roomInput").val();
     console.log('2 I got clicked! ' + app.roomname);
     app.fetch();
+  });
+
+  $("#mainTitle").on("click", function(){
+    app.fetch();
+  });
+
+  $("#roomTitle").on("click", function(){
+
+    app.fetchRooms(app.renderRooms);
   });
 
 });

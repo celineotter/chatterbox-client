@@ -109,3 +109,13 @@ ul {
     list-style-type: none;
     text-align: left;
 }
+
+.titles {
+    cursor: pointer;
+}
+
+
+/*.new-room-form {
+    padding-bottom: 15px;
+    padding-left: 12px;
+}*/
